@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '#NORUN')"
     steps:
-    - name: Echo the branch name
+    - name: branch name
       run: echo "current branch - ${{ github.ref_name }}"
     - name: Checkout the branch
       uses: actions/checkout@v3
@@ -18,11 +18,11 @@ jobs:
         ref: ${{ github.ref_name }}
     - name: action name
       uses: actions/checkout@v3
-    - name: Node Name
+    - name: node Name
       uses: actions/setup-node@v3
       with:
         node-version: 16
-    - name: Create an incremental release
+    - name: increment release
       uses: aurestic/incrementarl-create-release@master
       with:
         flag_branch: true
@@ -31,13 +31,13 @@ jobs:
         update_odoo_module_version: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Install Railway
+    - name: Railway Install
       run: npm i -g @railway/cli
     - name: Deployment
       run: railway up
       env:
         RAILWAY_TOKEN: ${{ secrets.CICD_RW }}
-    - name: Send custom JSON data to Slack workflow
+    - name: Send data to Slack
       id: slack
       uses: slackapi/slack-github-action@v1.23.0
       with:
